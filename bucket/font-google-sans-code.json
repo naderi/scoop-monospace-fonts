@@ -1,0 +1,209 @@
+{
+    "version": "7.001",
+    "description": "Google Sans Code is a fixed-width font family, designed to bring clarity, readability, and a bit of Google's distinctive brand character to code.",
+    "homepage": "https://github.com/googlefonts/googlesans-code",
+    "license": "SIL-1.1",
+    "url": "https://github.com/googlefonts/googlesans-code/releases/download/v7.001/GoogleSansCode-v7.001.zip",
+    "hash": "eebba2a438882396e8530cad6d6cb80182b0afb6e9e0ad07b7340359a53ba2e9",
+
+    "installer": {
+        "script": [
+            "$currentBuildNumber = [int](Get-ItemProperty 'HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion').CurrentBuildNumber",
+            "$windows10Version1809BuildNumber = 17763",
+            "$isPerUserFontInstallationSupported = $currentBuildNumber -ge $windows10Version1809BuildNumber",
+            "$isFontInstallationForAllUsers = $global -or !$isPerUserFontInstallationSupported",
+
+            "if ($isFontInstallationForAllUsers -and !(is_admin)) {",
+            "    error 'Administrator rights are required to install $app for all users.'",
+            "    exit 1",
+            "}",
+
+            "$fontInstallDir = if ($isFontInstallationForAllUsers) { \"$env:windir\\Fonts\" } else { \"$env:LOCALAPPDATA\\Microsoft\\Windows\\Fonts\" }",
+            "$registryRoot = if ($isFontInstallationForAllUsers) { 'HKLM' } else { 'HKCU' }",
+            "$registryKey = \"${registryRoot}:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts\"",
+
+            "if (!(Test-Path $fontInstallDir)) {",
+            "    New-Item -Path $fontInstallDir -ItemType Directory -Force | Out-Null",
+            "}",
+
+            "if (!$isFontInstallationForAllUsers) {",
+            "    # Allow packaged Windows applications to read per-user fonts.",
+            "    $accessControlList = Get-Acl $fontInstallDir",
+            "    $allApplicationPackagesAccessRule = New-Object System.Security.AccessControl.FileSystemAccessRule([System.Security.Principal.SecurityIdentifier]::new('S-1-15-2-1'), 'ReadAndExecute', 'ContainerInherit,ObjectInherit', 'None', 'Allow')",
+            "    $allRestrictedApplicationPackagesAccessRule = New-Object System.Security.AccessControl.FileSystemAccessRule([System.Security.Principal.SecurityIdentifier]::new('S-1-15-2-2'), 'ReadAndExecute', 'ContainerInherit,ObjectInherit', 'None', 'Allow')",
+            "    $accessControlList.SetAccessRule($allApplicationPackagesAccessRule)",
+            "    $accessControlList.SetAccessRule($allRestrictedApplicationPackagesAccessRule)",
+            "    Set-Acl -Path $fontInstallDir -AclObject $accessControlList",
+            "}",
+
+            "Add-Type @'",
+            "using System;",
+            "using System.Runtime.InteropServices;",
+            "",
+            "public static class FontInstallerNativeMethods",
+            "{",
+            "    [DllImport(\"gdi32.dll\", CharSet = CharSet.Unicode, SetLastError = true)]",
+            "    public static extern int AddFontResourceW(string fileName);",
+            "",
+            "    [DllImport(\"gdi32.dll\", CharSet = CharSet.Unicode, SetLastError = true)]",
+            "    public static extern bool RemoveFontResourceW(string fileName);",
+            "",
+            "    [DllImport(\"user32.dll\", CharSet = CharSet.Unicode)]",
+            "    public static extern IntPtr SendMessageW(",
+            "        IntPtr hWnd,",
+            "        uint msg,",
+            "        IntPtr wParam,",
+            "        IntPtr lParam);",
+            "",
+            "    public static readonly IntPtr HWND_BROADCAST = new IntPtr(0xffff);",
+            "    public const uint WM_FONTCHANGE = 0x001D;",
+            "}",
+            "'@",
+
+            "$fontFiles = Get-ChildItem -Path $dir -Filter '*.ttf' -File -Recurse",
+
+            "if (!$fontFiles) {",
+            "    throw 'No TTF font files were found in the downloaded archive.'",
+            "}",
+
+            "$installedFonts = @()",
+
+            "foreach ($fontFile in $fontFiles) {",
+            "    $destination = Join-Path $fontInstallDir $fontFile.Name",
+
+            "    Write-Host \"Installing font '$($fontFile.Name)'...\"",
+
+            "    Copy-Item -LiteralPath $fontFile.FullName -Destination $destination -Force",
+
+            "    $fontCount = [FontInstallerNativeMethods]::AddFontResourceW($destination)",
+
+            "    if ($fontCount -eq 0) {",
+            "        Remove-Item -LiteralPath $destination -Force -ErrorAction SilentlyContinue",
+            "        throw \"Windows failed to load font '$($fontFile.Name)'.\"",
+            "    }",
+
+            "    # Windows uses the font's actual internal name for display, but the",
+            "    # registry value name only needs to uniquely identify the installed font.",
+            "    $registryValueName = \"$($fontFile.BaseName) (TrueType)\"",
+
+            "    $registryValue = if ($isFontInstallationForAllUsers) {",
+            "        $fontFile.Name",
+            "    } else {",
+            "        $destination",
+            "    }",
+
+            "    New-ItemProperty -Path $registryKey -Name $registryValueName -Value $registryValue -PropertyType String -Force | Out-Null",
+
+            "    $installedFonts += $destination",
+            "}",
+
+            "# Notify all applications that the system font table has changed.",
+            "[FontInstallerNativeMethods]::SendMessageW(",
+            "    [FontInstallerNativeMethods]::HWND_BROADCAST,",
+            "    [FontInstallerNativeMethods]::WM_FONTCHANGE,",
+            "    [IntPtr]::Zero,",
+            "    [IntPtr]::Zero",
+            ") | Out-Null",
+
+            "Write-Host \"\"",
+            "Write-Host \"Google Sans Code has been installed.\" -Foreground Green",
+            "Write-Host \"Font location: $fontInstallDir\" -Foreground DarkGray",
+            "Write-Host \"\""
+        ]
+    },
+
+    "pre_uninstall": {
+        "script": [
+            "$currentBuildNumber = [int](Get-ItemProperty 'HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion').CurrentBuildNumber",
+            "$windows10Version1809BuildNumber = 17763",
+            "$isPerUserFontInstallationSupported = $currentBuildNumber -ge $windows10Version1809BuildNumber",
+            "$isFontInstallationForAllUsers = $global -or !$isPerUserFontInstallationSupported",
+
+            "if ($isFontInstallationForAllUsers -and !(is_admin)) {",
+            "    error 'Administrator rights are required to uninstall $app.'",
+            "    exit 1",
+            "}",
+
+            "$fontInstallDir = if ($isFontInstallationForAllUsers) { \"$env:windir\\Fonts\" } else { \"$env:LOCALAPPDATA\\Microsoft\\Windows\\Fonts\" }",
+
+            "Add-Type @'",
+            "using System;",
+            "using System.Runtime.InteropServices;",
+            "",
+            "public static class FontUninstallNativeMethods",
+            "{",
+            "    [DllImport(\"gdi32.dll\", CharSet = CharSet.Unicode, SetLastError = true)]",
+            "    public static extern bool RemoveFontResourceW(string fileName);",
+            "",
+            "    [DllImport(\"user32.dll\", CharSet = CharSet.Unicode)]",
+            "    public static extern IntPtr SendMessageW(",
+            "        IntPtr hWnd,",
+            "        uint msg,",
+            "        IntPtr wParam,",
+            "        IntPtr lParam);",
+            "",
+            "    public static readonly IntPtr HWND_BROADCAST = new IntPtr(0xffff);",
+            "    public const uint WM_FONTCHANGE = 0x001D;",
+            "}",
+            "'@",
+
+            "$fontFiles = Get-ChildItem -Path $dir -Filter '*.ttf' -File -Recurse",
+
+            "foreach ($fontFile in $fontFiles) {",
+            "    $installedFont = Join-Path $fontInstallDir $fontFile.Name",
+
+            "    if (Test-Path $installedFont) {",
+            "        Write-Host \"Unloading font '$($fontFile.Name)'...\"",
+            "        [FontUninstallNativeMethods]::RemoveFontResourceW($installedFont) | Out-Null",
+            "    }",
+            "}",
+
+            "[FontUninstallNativeMethods]::SendMessageW(",
+            "    [FontUninstallNativeMethods]::HWND_BROADCAST,",
+            "    [FontUninstallNativeMethods]::WM_FONTCHANGE,",
+            "    [IntPtr]::Zero,",
+            "    [IntPtr]::Zero",
+            ") | Out-Null"
+        ]
+    },
+
+    "uninstaller": {
+        "script": [
+            "$currentBuildNumber = [int](Get-ItemProperty 'HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion').CurrentBuildNumber",
+            "$windows10Version1809BuildNumber = 17763",
+            "$isPerUserFontInstallationSupported = $currentBuildNumber -ge $windows10Version1809BuildNumber",
+            "$isFontInstallationForAllUsers = $global -or !$isPerUserFontInstallationSupported",
+
+            "$fontInstallDir = if ($isFontInstallationForAllUsers) { \"$env:windir\\Fonts\" } else { \"$env:LOCALAPPDATA\\Microsoft\\Windows\\Fonts\" }",
+            "$registryRoot = if ($isFontInstallationForAllUsers) { 'HKLM' } else { 'HKCU' }",
+            "$registryKey = \"${registryRoot}:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts\"",
+
+            "$fontFiles = Get-ChildItem -Path $dir -Filter '*.ttf' -File -Recurse",
+
+            "foreach ($fontFile in $fontFiles) {",
+            "    $registryValueName = \"$($fontFile.BaseName) (TrueType)\"",
+            "    $installedFont = Join-Path $fontInstallDir $fontFile.Name",
+
+            "    Remove-ItemProperty -Path $registryKey -Name $registryValueName -Force -ErrorAction SilentlyContinue",
+
+            "    if (Test-Path $installedFont) {",
+            "        Remove-Item -LiteralPath $installedFont -Force -ErrorAction SilentlyContinue",
+            "    }",
+            "}",
+
+            "if ($cmd -eq 'uninstall') {",
+            "    Write-Host \"\"",
+            "    Write-Host \"Font 'Google Sans Code' has been uninstalled.\" -Foreground Magenta",
+            "    Write-Host \"\"",
+            "}"
+        ]
+    },
+
+    "checkver": {
+        "github": "https://github.com/googlefonts/googlesans-code"
+    },
+
+    "autoupdate": {
+        "url": "https://github.com/googlefonts/googlesans-code/releases/download/v$version/GoogleSansCode-v$version.zip"
+    }
+}
