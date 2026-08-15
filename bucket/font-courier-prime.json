@@ -1,12 +1,13 @@
 {
-    "version": "1.1.2",
+    "version": "1.203",
+    "description": "It's Courier, just better.",
+    "homepage": "https://quoteunquoteapps.com/courierprime/",
     "license": "SIL OFL 1.1",
-    "homepage": "https://github.com/rastikerdar/vazir-code-font",
-    "url": "https://github.com/rastikerdar/vazir-code-font/releases/download/v1.1.2/vazir-code-font-v1.1.2.zip",
-    "hash": "5c10819faef1d281db03703a82d498815b3d73b83badfa3100f9bbcd893b071e",
+    "url": "https://quoteunquoteapps.com/courierprime/downloads/courier-prime.zip",
+    "hash": "d5d4faf1bee0d1f52bab1103cbfdfb354976331c86f999c110c22a098cb12d73",
     "pre_install": [
-        "Remove-Item $dir\\* -exclude *.ttf -Force -Recurse",
-        "Get-ChildItem \"$dir\" -Recurse -Directory | Remove-Item -Recurse"
+        "Get-ChildItem \"$dir\\Courier Prime\" -File -Recurse | Where-Object { $_.Extension -in '.ttf', '.otf' } | Move-Item -Destination $dir -Force",
+        "Get-ChildItem \"$dir\" | Where-Object { $_.Extension -notin '.ttf', '.otf' } | Remove-Item -Recurse -Force"
     ],
     "installer": {
         "script": [
@@ -25,9 +26,5 @@
             "Update-ScoopFontCache",
             "Write-Host \"The '$app' font family has been uninstalled.\" -ForegroundColor Magenta"
         ]
-    },
-    "checkver": "github",
-    "autoupdate": {
-        "url": "https://github.com/rastikerdar/vazir-code-font/releases/download/v$version/vazir-code-font-v$version.zip"
     }
 }
