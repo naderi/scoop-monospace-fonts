@@ -1,0 +1,36 @@
+{
+    "version": "1.207",
+    "description": "A custom-designed typeface explicitly created for the developer community.",
+    "homepage": "https://github.com/isaozler/kode-mono",
+    "license": "SIL OFL 1.1",
+    "url": "https://github.com/isaozler/kode-mono/releases/download/1.207/kode-mono-1.207.zip",
+    "hash": "fb7d03737497f634da9c78f6b0a02c586352e295d38b46883e38600630aabf49",
+    "extract_dir": "kode-mono-1.207",
+    "pre_install": [
+        "Get-ChildItem \"$dir\\fonts\\ttf\" -File -Recurse | Where-Object { $_.Extension -in '.ttf', '.otf' } | Move-Item -Destination $dir -Force",
+        "Get-ChildItem \"$dir\" | Where-Object { $_.Extension -notin '.ttf', '.otf' } | Remove-Item -Recurse -Force"
+    ],
+    "installer": {
+        "script": [
+            ". \"$bucketsdir\\monospace-fonts\\scripts\\font.ps1\"",
+            "$fontInstallDir = if ($global) { \"$env:windir\\Fonts\" } else { \"$env:LOCALAPPDATA\\Microsoft\\Windows\\Fonts\" }",
+            "$registryRoot = if ($global) { 'HKLM' } else { 'HKCU' }",
+            "$registryKey = \"${registryRoot}:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts\"",
+            "Install-ScoopFonts -SourceDirectory $dir -FontDirectory $fontInstallDir -RegistryKey $registryKey -Global $global",
+            "Update-ScoopFontCache"
+        ]
+    },
+    "uninstaller": {
+        "script": [
+            ". \"$bucketsdir\\monospace-fonts\\scripts\\font.ps1\"",
+            "Uninstall-ScoopFonts -SourceDirectory $dir",
+            "Update-ScoopFontCache",
+            "Write-Host \"The '$app' font family has been uninstalled.\" -ForegroundColor Magenta"
+        ]
+    },
+    "checkver": "github",
+    "autoupdate": {
+        "url": "https://github.com/isaozler/kode-mono/releases/download/$version/kode-mono-$version.zip",
+        "extract_dir": "kode-mono-$version"
+    }
+}
