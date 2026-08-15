@@ -5,6 +5,9 @@
     "license": "SIL-1.1",
     "url": "https://github.com/googlefonts/googlesans-code/releases/download/v7.001/GoogleSansCode-v7.001.zip",
     "hash": "eebba2a438882396e8530cad6d6cb80182b0afb6e9e0ad07b7340359a53ba2e9",
+    "pre_install": [
+        "Get-ChildItem \"$dir\" | Where-Object { $_.Extension -notin '.ttf', '.otf' } | Remove-Item -Recurse -Force"
+    ],
     "installer": {
         "script": [
             ". \"$bucketsdir\\monospace-fonts\\scripts\\font.ps1\"",
