@@ -1,0 +1,36 @@
+{
+    "version": "1.100",
+    "description": "The Ubuntu typeface has been specially created to complement the Ubuntu tone of voice.",
+    "homepage": "https://github.com/canonical/Ubuntu-Sans-Mono-fonts",
+    "license": "SIL OFL 1.1",
+    "url": "https://github.com/canonical/Ubuntu-Sans-Mono-fonts/releases/download/v1.100/Ubuntu-Sans-Mono-fonts-v1.100.zip",
+    "hash": "0e459ed18b552190971561b3e474d0c4583db40483debf9e951321c2a1c2dec8",
+    "extract_dir": "Ubuntu-Sans-Mono-fonts-v1.100",
+    "pre_install": [
+        "Get-ChildItem \"$dir\\fonts\\ttf\" -File -Recurse | Where-Object { $_.Extension -in '.ttf', '.otf' } | Move-Item -Destination $dir -Force",
+        "Get-ChildItem \"$dir\" | Where-Object { $_.Extension -notin '.ttf', '.otf' } | Remove-Item -Recurse -Force"
+    ],
+    "installer": {
+        "script": [
+            ". \"$bucketsdir\\monospace-fonts\\scripts\\font.ps1\"",
+            "$fontInstallDir = if ($global) { \"$env:windir\\Fonts\" } else { \"$env:LOCALAPPDATA\\Microsoft\\Windows\\Fonts\" }",
+            "$registryRoot = if ($global) { 'HKLM' } else { 'HKCU' }",
+            "$registryKey = \"${registryRoot}:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts\"",
+            "Install-ScoopFonts -SourceDirectory $dir -FontDirectory $fontInstallDir -RegistryKey $registryKey -Global $global",
+            "Update-ScoopFontCache"
+        ]
+    },
+    "uninstaller": {
+        "script": [
+            ". \"$bucketsdir\\monospace-fonts\\scripts\\font.ps1\"",
+            "Uninstall-ScoopFonts -SourceDirectory $dir",
+            "Update-ScoopFontCache",
+            "Write-Host \"The '$app' font family has been uninstalled.\" -ForegroundColor Magenta"
+        ]
+    },
+    "checkver": "github",
+    "autoupdate": {
+        "url": "https://github.com/canonical/Ubuntu-Sans-Mono-fonts/releases/download/v$version/Ubuntu-Sans-Mono-fonts-v$version.zip",
+        "extract_dir": "Ubuntu-Sans-Mono-fonts-v$version"
+    }
+}

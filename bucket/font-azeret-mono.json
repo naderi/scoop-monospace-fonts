@@ -1,0 +1,64 @@
+{
+    "version": "1.002",
+    "description": "Azeret is a sans-serif typeface with a mono-linear character. ",
+    "homepage": "https://github.com/displaay/Azeret/",
+    "license": "SIL OFL 1.1",
+    "url": [
+        "https://github.com/displaay/Azeret/raw/refs/heads/main/fonts/ttf/AzeretMono-Black.ttf",
+        "https://github.com/displaay/Azeret/raw/refs/heads/main/fonts/ttf/AzeretMono-BlackItalic.ttf",
+        "https://github.com/displaay/Azeret/raw/refs/heads/main/fonts/ttf/AzeretMono-Bold.ttf",
+        "https://github.com/displaay/Azeret/raw/refs/heads/main/fonts/ttf/AzeretMono-BoldItalic.ttf",
+        "https://github.com/displaay/Azeret/raw/refs/heads/main/fonts/ttf/AzeretMono-ExtraBold.ttf",
+        "https://github.com/displaay/Azeret/raw/refs/heads/main/fonts/ttf/AzeretMono-ExtraBoldItalic.ttf",
+        "https://github.com/displaay/Azeret/raw/refs/heads/main/fonts/ttf/AzeretMono-ExtraLight.ttf",
+        "https://github.com/displaay/Azeret/raw/refs/heads/main/fonts/ttf/AzeretMono-ExtraLightItalic.ttf",
+        "https://github.com/displaay/Azeret/raw/refs/heads/main/fonts/ttf/AzeretMono-Italic.ttf",
+        "https://github.com/displaay/Azeret/raw/refs/heads/main/fonts/ttf/AzeretMono-Light.ttf",
+        "https://github.com/displaay/Azeret/raw/refs/heads/main/fonts/ttf/AzeretMono-LightItalic.ttf",
+        "https://github.com/displaay/Azeret/raw/refs/heads/main/fonts/ttf/AzeretMono-Medium.ttf",
+        "https://github.com/displaay/Azeret/raw/refs/heads/main/fonts/ttf/AzeretMono-MediumItalic.ttf",
+        "https://github.com/displaay/Azeret/raw/refs/heads/main/fonts/ttf/AzeretMono-Regular.ttf",
+        "https://github.com/displaay/Azeret/raw/refs/heads/main/fonts/ttf/AzeretMono-SemiBold.ttf",
+        "https://github.com/displaay/Azeret/raw/refs/heads/main/fonts/ttf/AzeretMono-SemiBoldItalic.ttf",
+        "https://github.com/displaay/Azeret/raw/refs/heads/main/fonts/ttf/AzeretMono-Thin.ttf",
+        "https://github.com/displaay/Azeret/raw/refs/heads/main/fonts/ttf/AzeretMono-ThinItalic.ttf"
+    ],
+    "hash": [
+        "08fff82e81dc6844c63c8dff6da692381a84089e117652d2fa87997f07930a89",
+        "2efec43cfe7207f5781d5b361bd88f7092ff88626c2dc78f40fd08d6c0c37ded",
+        "603fcc8bbb6c1621a9f725aa45bc1c46dd7df6b8940b7bb418d061d9438031f3",
+        "0ba530b15950f17bf474f09dffc40e8291959fda202e955575fb7c83e24d446b",
+        "37cc738e05d9260a6db69e6e54255f314549f76a6fbc640c1840cdbb5d4f5322",
+        "7f2b989f42db2ee398472a2eaa94178509feeae138f1c625ee025ad794a4ec80",
+        "43fffd5bcc79db74cb655190304198d0f8d99c47b730b94f42565efe563f4490",
+        "cdbaa69eec0caea9613060f0a54436fec0cb6c316543fd9300ea1dfa608000cd",
+        "a13356ab6188d0d24a58de559540c6816709d44dfda0c26c554f750f9fd0cfbd",
+        "5778587490ad164f21fe8bbac03b25414e84fa8fefbd7472909eaf33cf9c4acd",
+        "4cbef135badb16b8e767d1163aebd5e528c0fa94ae05733ac55a89774371313f",
+        "f7c47af837f8f548b862f6c7d956870fdc5d8d7e659601e6f4f87ff15d0ef23b",
+        "2ea2fcf8a60f975ec7d3b68a59ef95758b9f18d665e931f210430ea40ce2e16a",
+        "a2ecae998aa054c84689756f69f8bc57950c5e09ea7b2779daaa367b4a6d0b9c",
+        "5b157b22280225ecfea038bb2d276fddd28d3297926b05fccfed8605c59f403a",
+        "32ca1f102c0898f1e6dd121f69e0ee7a78332ef72e4bcfd12c761056218f0783",
+        "97f50bb073493ecd19bbf689b9607d85de4378408ff16d2b244398ecb2ce06f4",
+        "55f16af88134636dd644386116b1c88336fd23103207c5ea42ccf782b8fb94ce"
+    ],
+    "installer": {
+        "script": [
+            ". \"$bucketsdir\\monospace-fonts\\scripts\\font.ps1\"",
+            "$fontInstallDir = if ($global) { \"$env:windir\\Fonts\" } else { \"$env:LOCALAPPDATA\\Microsoft\\Windows\\Fonts\" }",
+            "$registryRoot = if ($global) { 'HKLM' } else { 'HKCU' }",
+            "$registryKey = \"${registryRoot}:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts\"",
+            "Install-ScoopFonts -SourceDirectory $dir -FontDirectory $fontInstallDir -RegistryKey $registryKey -Global $global",
+            "Update-ScoopFontCache"
+        ]
+    },
+    "uninstaller": {
+        "script": [
+            ". \"$bucketsdir\\monospace-fonts\\scripts\\font.ps1\"",
+            "Uninstall-ScoopFonts -SourceDirectory $dir",
+            "Update-ScoopFontCache",
+            "Write-Host \"The '$app' font family has been uninstalled.\" -ForegroundColor Magenta"
+        ]
+    }
+}
