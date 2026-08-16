@@ -1,7 +1,7 @@
 {
     "version": "2.000",
     "description": "The iA Writer fonts comes bundled with iA Writer for for Android, Windows, Mac, iPadOS and iOS",
-    "homepage": "https://quoteunquoteapps.com/courierprime/",
+    "homepage": "https://github.com/iaolo/iA-Fonts/",
     "license": "SIL OFL 1.1",
     "url": [
         "https://github.com/iaolo/iA-Fonts/raw/refs/heads/master/iA%20Writer%20Mono/Static/iAWriterMonoS-Bold.ttf",
