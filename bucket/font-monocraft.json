@@ -1,10 +1,10 @@
 {
-    "version": "1",
+    "version": "4.2.1",
     "description": "The monospaced font for developers who like Minecraft a bit too much.",
     "homepage": "https://github.com/IdreesInc/Monocraft",
     "license": "OFL-1.1",
-    "url": "https://github.com/i-tu/Hasklig/releases/download/v1.2/Hasklig-1.2.zip",
-    "hash": "9cd35a7449b220dc84f9516c57817e147003fc905a477f1ec727816d9d8a81d4",
+    "url": "https://github.com/IdreesInc/Monocraft/releases/download/v4.2.1/Monocraft-otf.zip",
+    "hash": "e623b72f1021062ad0156cc41f54b108e70bd35e2b295127475bb572d8ade61d",
     "pre_install": [
         "Get-ChildItem \"$dir\\Monocraft-otf\" -File -Recurse -Filter '*.otf' | Move-Item -Destination $dir -Force",
         "Get-ChildItem \"$dir\" | Where-Object { $_.Extension -notin '.ttf', '.otf' } | Remove-Item -Recurse -Force"
