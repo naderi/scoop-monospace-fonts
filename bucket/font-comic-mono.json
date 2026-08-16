@@ -1,15 +1,11 @@
 {
     "version": "0.1.1",
     "description": "A legible monospace font... the very typeface you’ve been trained to recognize since childhood",
-    "homepage": "https://github.com/dtinth/comic-mono-font/",
+    "homepage": "https://github.com/dtinth/comic-mono-font",
     "license": "SIL OFL 1.1",
     "url": [
         "https://github.com/dtinth/comic-mono-font/raw/refs/heads/master/ComicMono-Bold.ttf",
         "https://github.com/dtinth/comic-mono-font/raw/refs/heads/master/ComicMono.ttf"
-    ],
-    "hash": [
-        "2396da69ddc7f5212caa0ede627fb2fbb2319a15cc6877249e109e1fd7e60e7e",
-        "3bc1425e922a16abf0ec767effe4d0268439b4c0dce98432e07d15f5dad57196"
     ],
     "installer": {
         "script": [

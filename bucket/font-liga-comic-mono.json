@@ -1,19 +1,13 @@
 {
     "version": "0.1.1",
     "description": "Comic Mono Font with Ligatures based on Comic Mono, ligaturized via Ligaturizer",
-    "homepage": "https://github.com/wayou/comic-mono-font/",
+    "homepage": "https://github.com/wayou/comic-mono-font",
     "license": "SIL OFL 1.1",
     "url": [
         "https://github.com/wayou/comic-mono-font/raw/refs/heads/master/LigaComicMono.ttf",
         "https://github.com/wayou/comic-mono-font/raw/refs/heads/master/LigaComicMono-Bold.ttf",
         "https://github.com/wayou/comic-mono-font/raw/refs/heads/master/LigaComicMonoNerdFont-Bold.ttf",
         "https://github.com/wayou/comic-mono-font/raw/refs/heads/master/LigaComicMonoNerdFont-Regular.ttf"
-    ],
-    "hash": [
-        "8051798c2f51886894bc51d869e9472ee042d5424d2122671eeb3a086709386e",
-        "9e67caf61b480a679126b810e5a79a93fe7dc21b70a094f82151267777bb44c3",
-        "73d4dd8bebe90bad9e26f8d6c286c21984dcb7712b82a2d7bd078437f4cb82b3",
-        "fbbbd9d3e42a203257cf135eda61253bf492c6d50c4abd41b367d0c304eea577"
     ],
     "installer": {
         "script": [

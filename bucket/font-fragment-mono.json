@@ -1,7 +1,7 @@
 {
-    "version": "1.21",
+    "version": "1.2",
     "description": "Fragment Mono is a monospaced coding version of Helvetica created by modifying and extending Nimbus Sans by URW Design Studio.",
-    "homepage": "https://github.com/weiweihuanghuang/fragment-mono/",
+    "homepage": "https://github.com/weiweihuanghuang/fragment-mono",
     "license": "SIL OFL 1.1",
     "url": "https://github.com/weiweihuanghuang/fragment-mono/releases/download/1.21/fragment-mono-1.21.zip",
     "hash": "1d3b711facfb0621638dc650708f8a26dbe83b1efb4382a2438ac5eadb716658",
