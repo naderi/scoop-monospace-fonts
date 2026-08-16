@@ -1,0 +1,33 @@
+{
+    "version": "1.1.0",
+    "description": "Free and open-source monospaced font from Evil Martians.",
+    "homepage": "https://evilmartians.com/products/martian-mono",
+    "license": "OFL-1.1",
+    "url": "https://github.com/evilmartians/mono/releases/download/v1.1.0/martian-mono-1.1.0-ttf.zip",
+    "hash": "483aa2d201a6c44610c0bdcf65eaf425b467d61e9ab606213eacef3e216c2a12",
+    "pre_install": "Get-ChildItem \"$dir\" | Where-Object { $_.Extension -notin '.ttf', '.otf' } | Remove-Item -Recurse -Force",
+    "installer": {
+        "script": [
+            ". \"$bucketsdir\\monospace-fonts\\scripts\\font.ps1\"",
+            "$fontInstallDir = if ($global) { \"$env:windir\\Fonts\" } else { \"$env:LOCALAPPDATA\\Microsoft\\Windows\\Fonts\" }",
+            "$registryRoot = if ($global) { 'HKLM' } else { 'HKCU' }",
+            "$registryKey = \"${registryRoot}:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts\"",
+            "Install-ScoopFonts -SourceDirectory $dir -FontDirectory $fontInstallDir -RegistryKey $registryKey -Global $global",
+            "Update-ScoopFontCache"
+        ]
+    },
+    "uninstaller": {
+        "script": [
+            ". \"$bucketsdir\\monospace-fonts\\scripts\\font.ps1\"",
+            "Uninstall-ScoopFonts -SourceDirectory $dir",
+            "Update-ScoopFontCache",
+            "Write-Host \"The '$app' font family has been uninstalled.\" -ForegroundColor Magenta"
+        ]
+    },
+    "checkver": {
+        "github": "https://github.com/evilmartians/mono"
+    },
+    "autoupdate": {
+        "url": "https://github.com/evilmartians/mono/releases/download/v$version/martian-mono-$version-ttf.zip"
+    }
+}

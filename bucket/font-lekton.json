@@ -1,0 +1,29 @@
+{
+    "version": "34.000",
+    "description": "Lekton has been designed at ISIA Urbino, Italy, and is inspired by some of the typefaces used on the Olivetti typewriters.",
+    "homepage": "https://fonts.google.com/specimen/Lekton",
+    "license": "SIL OFL 1.1",
+    "url": [
+        "https://github.com/google/fonts/raw/main/ofl/lekton/Lekton-Bold.ttf",
+        "https://github.com/google/fonts/raw/main/ofl/lekton/Lekton-Italic.ttf",
+        "https://github.com/google/fonts/raw/main/ofl/lekton/Lekton-Regular.ttf"
+    ],
+    "installer": {
+        "script": [
+            ". \"$bucketsdir\\monospace-fonts\\scripts\\font.ps1\"",
+            "$fontInstallDir = if ($global) { \"$env:windir\\Fonts\" } else { \"$env:LOCALAPPDATA\\Microsoft\\Windows\\Fonts\" }",
+            "$registryRoot = if ($global) { 'HKLM' } else { 'HKCU' }",
+            "$registryKey = \"${registryRoot}:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts\"",
+            "Install-ScoopFonts -SourceDirectory $dir -FontDirectory $fontInstallDir -RegistryKey $registryKey -Global $global",
+            "Update-ScoopFontCache"
+        ]
+    },
+    "uninstaller": {
+        "script": [
+            ". \"$bucketsdir\\monospace-fonts\\scripts\\font.ps1\"",
+            "Uninstall-ScoopFonts -SourceDirectory $dir",
+            "Update-ScoopFontCache",
+            "Write-Host \"The '$app' font family has been uninstalled.\" -ForegroundColor Magenta"
+        ]
+    }
+}

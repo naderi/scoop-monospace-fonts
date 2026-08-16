@@ -1,0 +1,30 @@
+{
+    "version": "34.8.0",
+    "description": "Iosevka is an open-source, sans-serif + monospace typeface family, designed for writing code, using in terminals, and preparing technical documents.",
+    "homepage": "https://github.com/be5invis/iosevka",
+    "license": "SIL OFL 1.1",
+    "url": "https://github.com/be5invis/Iosevka/releases/download/v34.8.0/PkgTTC-SGr-Iosevka-34.8.0.zip",
+    "hash": "1d1b7446f391e1e28ed8c7daab3cd970c116e53661273c66a1b3bd3d2dbafb3d",
+    "installer": {
+        "script": [
+            ". \"$bucketsdir\\monospace-fonts\\scripts\\font.ps1\"",
+            "$fontInstallDir = if ($global) { \"$env:windir\\Fonts\" } else { \"$env:LOCALAPPDATA\\Microsoft\\Windows\\Fonts\" }",
+            "$registryRoot = if ($global) { 'HKLM' } else { 'HKCU' }",
+            "$registryKey = \"${registryRoot}:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts\"",
+            "Install-ScoopFonts -SourceDirectory $dir -FontDirectory $fontInstallDir -RegistryKey $registryKey -Global $global",
+            "Update-ScoopFontCache"
+        ]
+    },
+    "uninstaller": {
+        "script": [
+            ". \"$bucketsdir\\monospace-fonts\\scripts\\font.ps1\"",
+            "Uninstall-ScoopFonts -SourceDirectory $dir",
+            "Update-ScoopFontCache",
+            "Write-Host \"The '$app' font family has been uninstalled.\" -ForegroundColor Magenta"
+        ]
+    },
+    "checkver": "github",
+    "autoupdate": {
+        "url": "https://github.com/be5invis/Iosevka/releases/download/v$version/PkgTTC-SGr-Iosevka-$version.zip"
+    }
+}
