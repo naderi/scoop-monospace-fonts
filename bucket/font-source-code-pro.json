@@ -1,0 +1,37 @@
+{
+    "version": "2.042R",
+    "description": "Source Code Pro is a set of OpenType fonts that have been designed to work well in user interface (UI) environments.",
+    "homepage": "https://adobe-fonts.github.io/source-code-pro",
+    "license": "SIL OFL 1.1",
+    "url": "https://github.com/adobe-fonts/source-code-pro/releases/download/2.042R-u%2F1.062R-i%2F1.026R-vf/OTF-source-code-pro-2.042R-u_1.062R-i.zip",
+    "hash": "754a2e3ebb945ae905d720ac5896b3b34acc9546dd6551ef9536869788629dae",
+    "extract_dir": "OTF",
+    "installer": {
+        "script": [
+            ". \"$bucketsdir\\monospace-fonts\\scripts\\font.ps1\"",
+            "$fontInstallDir = if ($global) { \"$env:windir\\Fonts\" } else { \"$env:LOCALAPPDATA\\Microsoft\\Windows\\Fonts\" }",
+            "$registryRoot = if ($global) { 'HKLM' } else { 'HKCU' }",
+            "$registryKey = \"${registryRoot}:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts\"",
+            "Install-ScoopFonts -SourceDirectory $dir -FontDirectory $fontInstallDir -RegistryKey $registryKey -Global $global",
+            "Update-ScoopFontCache"
+        ]
+    },
+    "uninstaller": {
+        "script": [
+            ". \"$bucketsdir\\monospace-fonts\\scripts\\font.ps1\"",
+            "Uninstall-ScoopFonts -SourceDirectory $dir",
+            "Update-ScoopFontCache",
+            "Write-Host \"The '$app' font family has been uninstalled.\" -ForegroundColor Magenta"
+        ]
+    },
+    "checkver": {
+        "url": "https://github.com/adobe-fonts/source-code-pro/tags",
+        "regex": "/adobe-fonts/source-code-pro/releases/tag/(.+?)-u%2F(?<build>(.+?))-i%2F(?<variable>(.+?))-vf"
+    },
+    "autoupdate": {
+        "url": "https://github.com/adobe-fonts/source-code-pro/releases/download/$version-u%2F$matchBuild-i%2F$matchVariable-vf/OTF-source-code-pro-$version-u_$matchBuild-i.zip",
+        "hash": {
+            "mode": "download"
+        }
+    }
+}
