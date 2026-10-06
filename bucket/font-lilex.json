@@ -1,10 +1,10 @@
 {
-    "version": "2.700",
+    "version": "2.630",
     "description": "Lilex is an extended font on top of IBM Plex Mono designed for developers.",
     "homepage": "https://github.com/mishamyrt/lilex",
     "license": "SIL OFL 1.1",
-    "url": "https://github.com/mishamyrt/Lilex/releases/download/2.700/Lilex.zip",
-    "hash": "34310edb4ba749f772d42b88e3eec4a6318527e75ceeaa96cfc556ee35366fbc",
+    "url": "https://github.com/mishamyrt/Lilex/releases/download/2.630/Lilex.zip",
+    "hash": "c946bf022f22895799eb69bcc5f2318ed4089e4e34b90054dfd78ed5316728e0",
     "pre_install": [
         "Get-ChildItem \"$dir\\ttf\" -File -Recurse | Where-Object { $_.Extension -in '.ttf', '.otf' } | Move-Item -Destination $dir -Force",
         "Get-ChildItem \"$dir\" | Where-Object { $_.Extension -notin '.ttf', '.otf' } | Remove-Item -Recurse -Force"
