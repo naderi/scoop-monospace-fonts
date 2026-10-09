@@ -1,11 +1,11 @@
 {
-    "version": "1.207",
+    "version": "2.003",
     "description": "A custom-designed typeface explicitly created for the developer community.",
     "homepage": "https://github.com/isaozler/kode-mono",
     "license": "SIL OFL 1.1",
-    "url": "https://github.com/isaozler/kode-mono/releases/download/1.207/kode-mono-1.207.zip",
-    "hash": "fb7d03737497f634da9c78f6b0a02c586352e295d38b46883e38600630aabf49",
-    "extract_dir": "kode-mono-1.207",
+    "url": "https://github.com/isaozler/kode-mono/releases/download/v2.003/kode-mono-v2.003.zip",
+    "hash": "dd8e64e226aed1ea8b78651e378a0fd9549cd34ce61c0574e4f150a218e903d9",
+    "extract_dir": "kode-mono-2.003",
     "pre_install": [
         "Get-ChildItem \"$dir\\fonts\\ttf\" -File -Recurse | Where-Object { $_.Extension -in '.ttf', '.otf' } | Move-Item -Destination $dir -Force",
         "Get-ChildItem \"$dir\" | Where-Object { $_.Extension -notin '.ttf', '.otf' } | Remove-Item -Recurse -Force"
@@ -30,7 +30,7 @@
     },
     "checkver": "github",
     "autoupdate": {
-        "url": "https://github.com/isaozler/kode-mono/releases/download/$version/kode-mono-$version.zip",
+        "url": "https://github.com/isaozler/kode-mono/releases/download/v$version/kode-mono-v$version.zip",
         "extract_dir": "kode-mono-$version"
     }
 }
