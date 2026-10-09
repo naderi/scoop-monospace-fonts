@@ -5,7 +5,7 @@
     "license": "SIL OFL 1.1",
     "url": "https://github.com/isaozler/kode-mono/releases/download/v2.003/kode-mono-v2.003.zip",
     "hash": "dd8e64e226aed1ea8b78651e378a0fd9549cd34ce61c0574e4f150a218e903d9",
-    "extract_dir": "2.003\\kode-mono-2.003",
+    "extract_dir": "2.003\\kode-mono-v2.003",
     "pre_install": [
         "Get-ChildItem \"$dir\\fonts\\ttf\" -File -Recurse | Where-Object { $_.Extension -in '.ttf', '.otf' } | Move-Item -Destination $dir -Force",
         "Get-ChildItem \"$dir\" | Where-Object { $_.Extension -notin '.ttf', '.otf' } | Remove-Item -Recurse -Force"
@@ -31,6 +31,6 @@
     "checkver": "github",
     "autoupdate": {
         "url": "https://github.com/isaozler/kode-mono/releases/download/v$version/kode-mono-v$version.zip",
-        "extract_dir": "$version\\kode-mono-$version"
+        "extract_dir": "$version\\kode-mono-v$version"
     }
 }
